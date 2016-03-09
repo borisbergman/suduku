@@ -18,30 +18,31 @@ copy = [list(row[:]) for row in orig]
 
 stack = []
 
+index = 0
+
 
 def build_stack():
     tracking = [(x,y) for x in range(len(orig)) for y in range(len(orig))]
     for num in tracking:
-        if orig[num[0]][num[1]] > 0:
+        if orig[num[0]][num[1]] == 0:
             stack.append(num)
 
 
-def solve_it(index):
-    print("solving for: " + str(index))
-    print("row: " + str(stack[index][0]) + " column: " + str(stack[index][1]) + " number: " + str(copy[stack[index][0]][stack[index][1]]))
+def solve_it():
+    global index
+    #print("solving for: " + str(index))
+    #print("row: " + str(stack[index][0]) + " column: " + str(stack[index][1]) + " number: " + str(copy[stack[index][0]][stack[index][1]]))
 
     while True:
         copy[stack[index][0]][stack[index][1]] += 1
         if copy[stack[index][0]][stack[index][1]] > 9:
             copy[stack[index][0]][stack[index][1]] = 0
             #backtrack
-            solve_it(index - 1)
+            index -= 1
             return
         if validate():
-            break
-
-    if len(stack) > index +1:
-        solve_it(index+1)
+            index += 1
+            return
 
 
 def check_columns():
@@ -61,6 +62,7 @@ def check_rows():
             return False
     return True
 
+
 def check_squares():
     squared = int(math.sqrt(len(orig)))
     to_check = [(x*squared, y*squared, squared) for x in range(squared) for y in range(squared)]
@@ -68,6 +70,7 @@ def check_squares():
         if not check_square(x[0], x[1], x[2]):
             return False
     return True
+
 
 def check_square(top,left, count):
     values = [x[left:left+count] for x in copy[top:top+count]]
@@ -77,12 +80,18 @@ def check_square(top,left, count):
     return True
 
 
+def solve_stack():
+    global index
+    while len(stack) > index:
+        solve_it()
+
+
 def validate():
     return check_columns() and check_rows() and check_squares()
 #increment()
 
 build_stack()
-solve_it(0)
+solve_stack()
 
 for row in copy:
     print(row)
