@@ -17,4 +17,4 @@ def parantesis(n, are_open, stack):
     if n < 1:
         print(stack)
 
-parantesis(6, 0, [])
+parantesis(16, 0, [])
