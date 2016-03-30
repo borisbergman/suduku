@@ -1,0 +1,17 @@
+
+finds =['bla','boo','foo']
+inputs = 'rhkbfwkblaryfgwkuebooyrfwefookyrfg'
+
+def find_string(inputstring, findstrings):
+    ret_strings = []
+    for findstring in findstrings:
+        for x in range(len(inputstring)):
+            compareto = inputstring[x:len(findstring)+x]
+            if compareto == findstring:
+                ret_strings.append(findstring)
+                break
+                
+    return ret_strings;
+
+print(find_string(inputs,finds))
+
